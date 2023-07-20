@@ -5,28 +5,28 @@
 	90.167.9.12/16
 使用局域网内的另一台主机B（70.167.7.4)
 B ping A：
-ping 70.167.7.12：可以ping通
-ping 90.167.9.12：destination host unreachable
+`ping 70.167.7.12`  可以ping通
+`ping 90.167.9.12`  destination host unreachable
 A ping B：
-ping 70.167.7.4：可以ping通
-ping -s 70.167.7.12  70.167.7.4：可以ping'通
-ping -s 90.167.9.12  70.167.7.4：可以ping通
+`ping 70.167.7.4`   可以ping通
+`ping -I 70.167.7.12  70.167.7.4` 可以ping'通
+`ping -I 90.167.9.12  70.167.7.4` 可以ping通
 
 A的ARP表：
 70.167.7.4 的mac地址是B的ens2f1网卡mac地址（at），通过自己的eno3网卡（on）
-90.167.9.4 的mac地址《imcomplete》，通过自己的ens2f0np0
+90.167.9.4 的mac地址<imcomplete> ，通过自己的ens2f0np0
 B也是如此
 	2. 主机A两张网卡，配置同网段ip
 	70.167.7.12/16
 	70.167.71.12/16
 使用局域网内的另一台主机B（70.167.7.4)
 B ping A：
-ping 70.167.7.12：可以ping通
-ping 70.167.71.12：也可以ping通
+`ping 70.167.7.12` 可以ping通
+`ping 70.167.71.12` 也可以ping通
 ApingB:
-ping 70.167.7.4：可以ping通
-ping -s 70.167.7.12  70.167.7.4：可以ping通 （-s 使用的源地址）
-ping -s 70.167.71.12  70.167.7.4：可以ping通
+`ping 70.167.7.4` 可以ping通
+`ping -s 70.167.7.12  70.167.7.4` 可以ping通 （-I 使用的源地址）
+`ping -s 70.167.71.12  70.167.7.4` 可以ping通
 A的ARP表：
 70.167.7.4 的mac地址是B的ens2f1网卡mac地址（at），通过自己的ens2f0np0网卡（on）。
 所以实际上在A的视角我要给B发信息，我不会两个网卡都用，只会用其中一个，用的是metric值更小的那个iface。

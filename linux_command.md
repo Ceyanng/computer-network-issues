@@ -6,11 +6,22 @@
 |查询特定内核模块信息|`modinfo <modname>`|
 |查询用户态的软件包|`rpm -qa \| grep <package partname>`|
 |内核版本查询| `uname -r`|
-## 进程线程信息查询
+## 系统运行信息查询
 |作用|命令|
 |---|---|
 | 进程查询 | `ps` |
+| 系统信息查询 | `top`|
 
-# 文件管理
-## 
-|
+# 修改命令
+## 安装软件包
+|作用|命令|
+|---|---|
+|安装二进制rpm文件| `rpm -i xxx.rpm`|
+|编译源rpm文件| `rpmbuild --rebuild xxx.src.rpm` |
+|使用yum在镜像库中安装包|`yum install <package name>`|
+## 文件修改
+|作用|命令|
+|---|---|
+|新建目录|`mkdir`|
+
+

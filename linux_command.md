@@ -23,6 +23,8 @@
 |作用|命令|
 |---|---|
 |新建目录|`mkdir`|
+|写入命令(在文件后追加)|`echo "<sentence>" >> <filename>`|
+|写入命令(重写文件)|`echo "<sentence>" > <filename> `|
 
 # vim的使用
 |作用|命令|

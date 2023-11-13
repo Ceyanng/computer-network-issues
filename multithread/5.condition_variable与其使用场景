@@ -1,0 +1,55 @@
+# 生产者与消费者模型
+有两个进程A和B，它们共享一个固定大小的缓冲区，A进程产生数据放入缓冲区，B进程从缓冲区中取出
+数据进行计算，那么这里其实就是一个生产者和消费者的模式，A相当于生产者，B相当于消费者     
+任务队列（缓冲区为空），需要让消费者等待；生产者产生了新的任务需要通知消费者
+
+# 使用std::condition_variable步骤
++ 1，创建一个std::condition_variable对象
++ 2. 创建一个互斥锁std::mutex对象，用来保护共享资源的访问
++ 3. 在需要等待条件变量的地方使用std::unique_lock<std::mutex>对象锁定互斥锁，并调用std::condition_variable::wait()、std::condition_variable::wait_for()、
+  std::condition_variable::wait_until() 函数等待条件变量
++ 4. 在其他线程种需要通知等待的线程时，调用std::condition_variable::notify_one()或std::condition_variable::notify_all()函数通知等待的线程
+
+```c++
+#include<iostream>
+#include<thread>
+#include<mutex>
+#include<queue>
+#include<condition_variable>>
+
+std::queue<int> g_queue;
+std::condition_variable g_cv;
+std::mutex mtx;
+void Producer() {
+	for (int i = 0; i < 10; i++) {
+		{
+			std::unique_lock<std::mutex> lock(mtx);
+			g_queue.push(i);
+			g_cv.notify_one();////通知消费者来取任务
+			std::cout << "Producer_task:" << i << std::endl;
+		}
+		std::this_thread::sleep_for(std::chrono::milliseconds(100)); //添加任务后释放锁并休眠100ms
+		
+	}
+	
+}
+void Consumer() {
+	while (1) {
+		std::unique_lock<std::mutex> lock(mtx);
+		//队列不为空则等待申请锁
+		g_cv.wait(lock, []() {
+			return  !g_queue.empty();
+			});
+		int value = g_queue.front();
+		g_queue.pop();
+		std::cout << "Consumer_task" << value << std::endl;
+	}
+}
+int main() {
+	std::thread t1(Producer);
+	std::thread t2(Consumer);
+	t1.join();
+	t2.join();
+	return 0;
+}
+```

@@ -35,6 +35,7 @@
 |作用|命令|
 |---|---|
 |切换为root用户|`sudo su -`|
+|改变文件夹所有权|#先以所有者用户登录，再运行`chown <username> <filepath>`|
 |改变文件权限(读写)|`chmod 600 <filename>`|
 |改变文件权限(读写执行)|`chmod 700 <filename>`|
 
